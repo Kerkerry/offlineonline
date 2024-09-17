@@ -6,12 +6,12 @@ class InternetConnectionHelper {
     var connectivityResult = await Connectivity().checkConnectivity();
 
     if (connectivityResult == ConnectivityResult.none) {
-      return false;
+      return false; // Not connected to any network
     } else if (connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi ||
         connectivityResult == ConnectivityResult.vpn) {
-      return true;
+      return true; // Connected to either mobile data or wifi
     }
-    return false;
+    return false; // Default to not connected
   }
 }

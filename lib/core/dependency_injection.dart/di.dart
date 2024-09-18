@@ -1,3 +1,5 @@
+import 'package:offlineapp/features/home/presentation/bloc/home_bloc.dart';
+
 import 'di_ex.dart';
 
 GetIt di = GetIt.instance;
@@ -33,4 +35,6 @@ Future<void> setupDi() async {
 
   // Bloc
   // Home bloc
+
+  di.registerSingleton<HomeBloc>(HomeBloc(di<HomeRepository>()));
 }

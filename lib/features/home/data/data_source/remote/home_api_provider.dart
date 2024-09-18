@@ -4,7 +4,7 @@ import 'package:offlineapp/core/helper/log_helper.dart';
 
 class HomeApiProvider {
   final Dio dio;
-  HomeApiProvider._(this.dio);
+  HomeApiProvider(this.dio);
 
   // Call home page products data
   dynamic callHomeProductsEndpoint() async {

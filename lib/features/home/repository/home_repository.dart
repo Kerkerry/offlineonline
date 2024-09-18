@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:offlineapp/core/dependency_injection.dart/di.dart';
+import 'package:offlineapp/core/helper/connection_helper.dart';
 import 'package:offlineapp/core/helper/log_helper.dart';
 import 'package:offlineapp/core/resources/data_state.dart';
 import 'package:offlineapp/features/home/data/data_source/local/home_db_provider.dart';
@@ -21,7 +23,8 @@ class HomeRepository {
   // Get Products for Home
   Future<DataState<dynamic>> fetchProducts() async {
     // Check the connnection
-    final bool isConnected = false;
+    final bool isConnected =
+        await di<InternetConnectionHelper>().checkInternetConnection();
     // Is database empty or not
     final bool isDatabaseEmpty = await _dbProvider.isProductsAvaialble();
     if (isConnected) {

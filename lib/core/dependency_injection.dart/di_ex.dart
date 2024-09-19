@@ -6,3 +6,4 @@ export 'package:offlineapp/features/home/data/data_source/local/home_db_provider
 export 'package:offlineapp/features/home/data/data_source/local/home_db_service.dart';
 export 'package:offlineapp/features/home/data/data_source/remote/home_api_provider.dart';
 export 'package:offlineapp/features/home/repository/home_repository.dart';
+export 'package:offlineapp/features/home/presentation/bloc/home_bloc.dart';

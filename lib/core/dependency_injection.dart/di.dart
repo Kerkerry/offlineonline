@@ -1,5 +1,3 @@
-import 'package:offlineapp/features/home/presentation/bloc/home_bloc.dart';
-
 import 'di_ex.dart';
 
 GetIt di = GetIt.instance;

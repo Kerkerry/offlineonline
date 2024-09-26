@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offlineapp/core/dependency_injection.dart/di_ex.dart';
+import 'package:offlineapp/features/home/data/entities/product.dart';
+import 'package:offlineapp/features/home/data/model/products_model.dart';
 import 'package:offlineapp/features/home/presentation/bloc/home_status.dart';
 import 'package:offlineapp/features/home/presentation/widgets/custom_loading_widget.dart';
+import 'package:offlineapp/features/home/presentation/widgets/home_single_list_item.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -57,12 +60,13 @@ class HomePage extends StatelessWidget {
             if (state.homeProductsStatus is HomeProductsStatusComplete) {
               final HomeProductsStatusComplete emPost =
                   state.homeProductsStatus as HomeProductsStatusComplete;
-              final productsModel = emPost.products;
-              return Center(
-                child: Text(
-                  productsModel.message.toString(),
-                ),
-              );
+              final ProductsModel productsModel = emPost.products;
+              return ListView.builder(
+                  itemCount: emPost.products.products.length,
+                  itemBuilder: (context, index) {
+                    final Product product = productsModel.products[index];
+                    return HomeSingleListItem(current: product);
+                  });
             }
 
             return Container();

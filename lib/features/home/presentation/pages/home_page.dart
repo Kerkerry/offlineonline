@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offlineapp/core/dependency_injection.dart/di.dart';
 import 'package:offlineapp/core/dependency_injection.dart/di_ex.dart';
+import 'package:offlineapp/core/pages/error_page.dart';
 import 'package:offlineapp/features/home/data/entities/product.dart';
 import 'package:offlineapp/features/home/data/model/products_model.dart';
 import 'package:offlineapp/features/home/presentation/bloc/home_status.dart';
@@ -56,10 +57,12 @@ class HomePage extends StatelessWidget {
               final HomeProductsStatusError emPost =
                   state.homeProductsStatus as HomeProductsStatusError;
               final String errMsg = emPost.errorMsg;
-              return Center(
-                child: Text(
-                  errMsg,
-                ),
+              return CommonErrorPage(
+                isForNetwork: true,
+                description: errMsg,
+                onRetry: () {
+                  context.read<HomeBloc>().add(const HomeCallProductsEvent());
+                },
               );
             }
 

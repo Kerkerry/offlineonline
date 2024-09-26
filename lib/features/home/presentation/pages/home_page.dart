@@ -62,12 +62,21 @@ class HomePage extends StatelessWidget {
               final HomeProductsStatusComplete emPost =
                   state.homeProductsStatus as HomeProductsStatusComplete;
               final ProductsModel productsModel = emPost.products;
-              return ListView.builder(
-                  itemCount: emPost.products.products.length,
-                  itemBuilder: (context, index) {
-                    final Product product = productsModel.products[index];
-                    return HomeSingleListItem(current: product);
-                  });
+              return LiquidPullToRefresh(
+                onRefresh: () async {
+                  // Without extension
+                  BlocProvider.of<HomeBloc>(context)
+                      .add(const HomeCallProductsEvent());
+                  // With extension
+                  // context.read<HomeBloc>().add(const HomeCallProductsEvent());
+                },
+                child: ListView.builder(
+                    itemCount: emPost.products.products.length,
+                    itemBuilder: (context, index) {
+                      final Product product = productsModel.products[index];
+                      return HomeSingleListItem(current: product);
+                    }),
+              );
             }
 
             return Container();

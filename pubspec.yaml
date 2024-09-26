@@ -53,6 +53,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
   alert_banner: ^1.0.1
+  liquid_pull_to_refresh: ^3.0.1
 
 dev_dependencies:
   flutter_test:

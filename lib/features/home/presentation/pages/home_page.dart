@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:offlineapp/core/dependency_injection.dart/di_ex.dart';
+import 'package:offlineapp/features/home/presentation/bloc/home_status.dart';
+import 'package:offlineapp/features/home/presentation/widgets/custom_loading_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -27,6 +31,44 @@ class HomePage extends StatelessWidget {
       body: SizedBox(
         width: width,
         height: height,
+        child: BlocConsumer<HomeBloc, HomeState>(
+          builder: (context, HomeState state) {
+            // Init state status
+            if (state.homeProductsStatus is HomeProductsStatusInit) {
+              return Container();
+            }
+            // Loading state status
+            if (state.homeProductsStatus is HomeProductsStatusLoading) {
+              return CustomLoading.show(context);
+            }
+            // Error state status
+            if (state.homeProductsStatus is HomeProductsStatusError) {
+              final HomeProductsStatusError emPost =
+                  state.homeProductsStatus as HomeProductsStatusError;
+              final String errMsg = emPost.errorMsg;
+              return Center(
+                child: Text(
+                  errMsg,
+                ),
+              );
+            }
+
+            // Completed state status
+            if (state.homeProductsStatus is HomeProductsStatusComplete) {
+              final HomeProductsStatusComplete emPost =
+                  state.homeProductsStatus as HomeProductsStatusComplete;
+              final productsModel = emPost.products;
+              return Center(
+                child: Text(
+                  productsModel.message.toString(),
+                ),
+              );
+            }
+
+            return Container();
+          },
+          listener: (context, state) {},
+        ),
       ),
     );
   }

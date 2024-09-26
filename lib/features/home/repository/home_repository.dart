@@ -25,6 +25,7 @@ class HomeRepository {
     // Check the connnection
     final bool isConnected =
         await di<InternetConnectionHelper>().checkInternetConnection();
+    logger.d("Internet connection is: $isConnected");
     // Is database empty or not
     final bool isDatabaseEmpty = await _dbProvider.isProductsAvaialble();
     if (isConnected) {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:offlineapp/core/dependency_injection.dart/di.dart';
 import 'package:offlineapp/core/dependency_injection.dart/di_ex.dart';
 import 'package:offlineapp/features/home/data/entities/product.dart';
 import 'package:offlineapp/features/home/data/model/products_model.dart';
 import 'package:offlineapp/features/home/presentation/bloc/home_status.dart';
+import 'package:offlineapp/features/home/presentation/widgets/custom_alert.dart';
 import 'package:offlineapp/features/home/presentation/widgets/custom_loading_widget.dart';
 import 'package:offlineapp/features/home/presentation/widgets/home_single_list_item.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -36,6 +38,10 @@ class HomePage extends StatelessWidget {
         width: width,
         height: height,
         child: BlocConsumer<HomeBloc, HomeState>(
+          buildWhen: (previous, current) =>
+              previous.homeProductsStatus != current.homeProductsStatus,
+          listenWhen: (previous, current) =>
+              previous.homeProductsStatus != current.homeProductsStatus,
           builder: (context, HomeState state) {
             // Init state status
             if (state.homeProductsStatus is HomeProductsStatusInit) {
@@ -63,6 +69,9 @@ class HomePage extends StatelessWidget {
                   state.homeProductsStatus as HomeProductsStatusComplete;
               final ProductsModel productsModel = emPost.products;
               return LiquidPullToRefresh(
+                backgroundColor: theme.scaffoldBackgroundColor,
+                color: theme.primaryColor,
+                showChildOpacityTransition: true,
                 onRefresh: () async {
                   // Without extension
                   BlocProvider.of<HomeBloc>(context)
@@ -81,7 +90,22 @@ class HomePage extends StatelessWidget {
 
             return Container();
           },
-          listener: (context, state) {},
+          listener: (context, state) async {
+            if (state is HomeProductsStatusComplete) {
+              final HomeProductsStatusComplete cmProducts =
+                  state.homeProductsStatus as HomeProductsStatusComplete;
+
+              final ProductsModel productsModel = cmProducts.products;
+
+              final bool isConnected = await di<InternetConnectionHelper>()
+                  .checkInternetConnection();
+
+              final String msg =
+                  isConnected ? "From server" : "From local source";
+              // ignore: use_build_context_synchronously
+              CustomAlert.show(context, productsModel.message + msg);
+            }
+          },
         ),
       ),
     );

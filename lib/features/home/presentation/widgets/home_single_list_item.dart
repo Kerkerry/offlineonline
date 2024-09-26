@@ -36,7 +36,9 @@ class HomeSingleListItem extends StatelessWidget {
           children: [
             Container(
               width: width * 0.42,
-              color: theme.dialogBackgroundColor,
+              decoration: BoxDecoration(
+                  color: theme.dialogBackgroundColor,
+                  borderRadius: BorderRadius.circular(12)),
               child: CustomImageViewer.show(
                   context: context, url: current.photoUrl),
             ),
@@ -64,7 +66,7 @@ class HomeSingleListItem extends StatelessWidget {
                         color: theme.unselectedWidgetColor,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 9,
                     ),
                     Padding(
@@ -106,6 +108,7 @@ class HomeSingleListItem extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(right: width * 0.03),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -113,8 +116,8 @@ class HomeSingleListItem extends StatelessWidget {
                           borderRadius: BorderRadius.circular(3),
                         ),
                         child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 2, horizontal: 10),
                           child: Text(
                             current.category.toUpperCase(),
                             style: theme.textTheme.labelLarge!.copyWith(

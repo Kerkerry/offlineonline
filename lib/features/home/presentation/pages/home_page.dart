@@ -6,8 +6,9 @@ import 'package:offlineapp/core/pages/error_page.dart';
 import 'package:offlineapp/features/home/data/entities/product.dart';
 import 'package:offlineapp/features/home/data/model/products_model.dart';
 import 'package:offlineapp/features/home/presentation/bloc/home_status.dart';
-import 'package:offlineapp/features/home/presentation/widgets/custom_alert.dart';
-import 'package:offlineapp/features/home/presentation/widgets/custom_loading_widget.dart';
+import 'package:offlineapp/features/home/presentation/widgets/bnb.dart';
+import 'package:offlineapp/core/utils/custom_alert.dart';
+import 'package:offlineapp/core/utils/custom_loading_widget.dart';
 import 'package:offlineapp/features/home/presentation/widgets/home_single_list_item.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -93,8 +94,8 @@ class HomePage extends StatelessWidget {
 
             return Container();
           },
-          listener: (context, state) async {
-            if (state is HomeProductsStatusComplete) {
+          listener: (BuildContext context, HomeState state) async {
+            if (state.homeProductsStatus is HomeProductsStatusComplete) {
               final HomeProductsStatusComplete cmProducts =
                   state.homeProductsStatus as HomeProductsStatusComplete;
 
@@ -104,13 +105,16 @@ class HomePage extends StatelessWidget {
                   .checkInternetConnection();
 
               final String msg =
-                  isConnected ? "From server" : "From local source";
+                  isConnected ? "From server 🌐" : "From local source 📄";
               // ignore: use_build_context_synchronously
-              CustomAlert.show(context, productsModel.message + msg);
+              context.mounted
+                  ? CustomAlert.show(context, productsModel.message + msg)
+                  : null;
             }
           },
         ),
       ),
+      bottomNavigationBar: const BNB(),
     );
   }
 }

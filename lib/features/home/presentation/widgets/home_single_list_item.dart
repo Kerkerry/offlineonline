@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:offlineapp/features/home/data/entities/product.dart';
-import 'package:offlineapp/features/home/presentation/widgets/custom_image_viewer.dart';
+import 'package:offlineapp/core/utils/custom_image_viewer.dart';
 
 class HomeSingleListItem extends StatelessWidget {
   const HomeSingleListItem({super.key, required this.current});

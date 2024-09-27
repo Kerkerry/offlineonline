@@ -108,7 +108,7 @@ class HomePage extends StatelessWidget {
                   isConnected ? "From server 🌐" : "From local source 📄";
               // ignore: use_build_context_synchronously
               context.mounted
-                  ? CustomAlert.show(context, productsModel.message + msg)
+                  ? CustomAlert.show(context, "${productsModel.message} $msg")
                   : null;
             }
           },
